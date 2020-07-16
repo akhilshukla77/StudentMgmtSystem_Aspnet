@@ -1,0 +1,88 @@
+﻿@model IEnumerable<StudentMgmtApp.Models.Students>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<h1>Index</h1>
+
+<p>
+    @using (Html.BeginForm("FilterStudents", "Home", new AjaxOptions
+    {
+
+        UpdateTargetId = "divResults",
+
+        InsertionMode = InsertionMode.Replace,
+
+        HttpMethod = "Get"
+
+    }))
+    {
+        <div class="form-action no-color">
+    <p style="margin-top:20px;">
+        <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+    </p>
+    <input type="submit" value="Search" class="btn btn-outline-success btn-sm" />
+
+    </div>
+
+    if (ViewBag.showResult == true)
+    {
+
+        <div id=" divResults ">
+
+            @Html.Partial("MyPartialView", Model)
+
+        </div>
+    }
+
+}
+    </p>
+
+    @if (ViewBag.showResult == false)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Ssn)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DistrictId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DateOfBirth)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Ssn)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DistrictId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td>
+                           
+
+                            @Convert.ToDateTime(item.DateOfBirth).ToString("MM/dd/yyyy")
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
